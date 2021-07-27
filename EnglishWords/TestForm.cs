@@ -67,43 +67,7 @@ namespace EnglishWords
 					if (y == 1)
 						y = 3;
 
-					tbQuestion.Text = words[randomNumber].Split('|')[y];
-					correctAnswer = words[randomNumber].Split('|')[y+1];
-					//z for choice random
-					int z = rnd.Next(0, 4);
-					switch (z)
-					{
-						case 0:
-							correctChoice = 'A';
-							buttonA.Text = "A) " + correctAnswer;
-							buttonB.Text = "B) " + words[rnd.Next(0,words.Length)].Split('|')[y+1];
-							buttonC.Text = "C) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							buttonD.Text = "D) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							break;
-						case 1:
-							correctChoice = 'B';
-							buttonA.Text = "A) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							buttonB.Text = "B) " + correctAnswer;
-							buttonC.Text = "C) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							buttonD.Text = "D) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							break;
-						case 2:
-							correctChoice = 'C';
-							buttonA.Text = "A) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							buttonB.Text = "B) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							buttonC.Text = "C) " + correctAnswer;
-							buttonD.Text = "D) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							break;
-						case 3:
-							correctChoice = 'D';
-							buttonA.Text = "A) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							buttonB.Text = "B) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							buttonC.Text = "C) " + words[rnd.Next(0, words.Length)].Split('|')[y + 1];
-							buttonD.Text = "D) " + correctAnswer;
-							break;
-					}
-
-
+					prepareChoices(y, y+1);
 				}
 				//question turkish answer english
 				else
@@ -113,69 +77,74 @@ namespace EnglishWords
 					if (y == 2)
 						y = 4;
 
-					tbQuestion.Text = words[randomNumber].Split('|')[y];
-					correctAnswer = words[randomNumber].Split('|')[y - 1];
-
-
-					do
-					{
-						wrongAnswer1 = words[rnd.Next(0, words.Length)].Split('|')[y - 1];
-						wrongAnswer2 = words[rnd.Next(0, words.Length)].Split('|')[y - 1];
-						wrongAnswer3 = words[rnd.Next(0, words.Length)].Split('|')[y - 1];
-					} while (wrongAnswer1 == correctAnswer 
-					|| wrongAnswer2 == correctAnswer 
-					|| wrongAnswer3 == correctAnswer 
-					|| wrongAnswer1 == wrongAnswer2
-					|| wrongAnswer1 == wrongAnswer3
-					|| wrongAnswer2 == wrongAnswer3);
-
-
-					//z for choice random
-					int z = rnd.Next(0, 4);
-					switch (z)
-					{
-						case 0:
-							correctChoice = 'A';
-							buttonA.Text = "A) " + correctAnswer;
-							buttonB.Text = "B) " + wrongAnswer1;
-							buttonC.Text = "C) " + wrongAnswer2;
-							buttonD.Text = "D) " + wrongAnswer3;
-							break;
-						case 1:
-							correctChoice = 'B';
-							buttonA.Text = "A) " + wrongAnswer1;
-							buttonB.Text = "B) " + correctAnswer;
-							buttonC.Text = "C) " + wrongAnswer2;
-							buttonD.Text = "D) " + wrongAnswer3;
-							break;
-						case 2:
-							correctChoice = 'C';
-							buttonA.Text = "A) " + wrongAnswer1;
-							buttonB.Text = "B) " + wrongAnswer2;
-							buttonC.Text = "C) " + correctAnswer;
-							buttonD.Text = "D) " + wrongAnswer3;
-							break;
-						case 3:
-							correctChoice = 'D';
-							buttonA.Text = "A) " + wrongAnswer1;
-							buttonB.Text = "B) " + wrongAnswer2;
-							buttonC.Text = "C) " + wrongAnswer3;
-							buttonD.Text = "D) " + correctAnswer;
-							break;
-					}
-
+					prepareChoices(y, y-1);
 				}
 
 				count--;
 			}
 			else
 			{
+				//****
 				timer1.Stop();
-				MessageBox.Show("Result: " + countCorrect + " Correct Answer  -  " + countWrong + " Wrong Answer");
+				MessageBox.Show("Result: \n" + countCorrect + " Correct Answer\n" + countWrong + " Wrong Answer");
 				loginScreen.Visible = true;
 				this.Close();
 			}
 		}
+
+		private void prepareChoices(int no1, int no2)
+		{ 
+			tbQuestion.Text = words[randomNumber].Split('|')[no1];
+			correctAnswer = words[randomNumber].Split('|')[no2];
+
+			do
+			{
+				wrongAnswer1 = words[rnd.Next(0, words.Length)].Split('|')[no2];
+				wrongAnswer2 = words[rnd.Next(0, words.Length)].Split('|')[no2];
+				wrongAnswer3 = words[rnd.Next(0, words.Length)].Split('|')[no2];
+			} while (wrongAnswer1 == correctAnswer
+			|| wrongAnswer2 == correctAnswer
+			|| wrongAnswer3 == correctAnswer
+			|| wrongAnswer1 == wrongAnswer2
+			|| wrongAnswer1 == wrongAnswer3
+			|| wrongAnswer2 == wrongAnswer3);
+
+			//z for choice random
+			int z = rnd.Next(0, 4);
+			switch (z)
+			{
+				case 0:
+					correctChoice = 'A';
+					buttonA.Text = "A) " + correctAnswer;
+					buttonB.Text = "B) " + wrongAnswer1;
+					buttonC.Text = "C) " + wrongAnswer2;
+					buttonD.Text = "D) " + wrongAnswer3;
+					break;
+				case 1:
+					correctChoice = 'B';
+					buttonA.Text = "A) " + wrongAnswer1;
+					buttonB.Text = "B) " + correctAnswer;
+					buttonC.Text = "C) " + wrongAnswer2;
+					buttonD.Text = "D) " + wrongAnswer3;
+					break;
+				case 2:
+					correctChoice = 'C';
+					buttonA.Text = "A) " + wrongAnswer1;
+					buttonB.Text = "B) " + wrongAnswer2;
+					buttonC.Text = "C) " + correctAnswer;
+					buttonD.Text = "D) " + wrongAnswer3;
+					break;
+				case 3:
+					correctChoice = 'D';
+					buttonA.Text = "A) " + wrongAnswer1;
+					buttonB.Text = "B) " + wrongAnswer2;
+					buttonC.Text = "C) " + wrongAnswer3;
+					buttonD.Text = "D) " + correctAnswer;
+					break;
+			}
+		}
+
+
 
 		private void TestForm_Load(object sender, EventArgs e)
 		{
@@ -199,67 +168,40 @@ namespace EnglishWords
 
 		private void buttonA_Click(object sender, EventArgs e)
 		{
-			setButtons(false);
-			if (correctChoice == 'A')
-			{
-				countCorrect++;
-				buttonA.BackColor = Color.Green;
-			}
-			else
-			{
-				countWrong++;
-				buttonA.BackColor = Color.Red;
-				learnedToUnlearned();
-			}
+			isTrue('A', buttonA);
 		}
 
 		private void buttonB_Click(object sender, EventArgs e)
 		{
-			setButtons(false);
-			if (correctChoice == 'B')
-			{
-				countCorrect++;
-				buttonB.BackColor = Color.Green;
-			}
-			else
-			{
-				countWrong++;
-				buttonB.BackColor = Color.Red;
-				learnedToUnlearned();
-			}
+			isTrue('B', buttonB);
 		}
 
 		private void buttonC_Click(object sender, EventArgs e)
 		{
-			setButtons(false);
-			if (correctChoice == 'C')
-			{
-				countCorrect++;
-				buttonC.BackColor = Color.Green;
-			}
-			else
-			{
-				countWrong++;
-				buttonC.BackColor = Color.Red;
-				learnedToUnlearned();
-			}
+			isTrue('C', buttonC);
 		}
 
 		private void buttonD_Click(object sender, EventArgs e)
 		{
+			isTrue('D', buttonD);
+		}
+
+		private void isTrue(char selectedChoice, Button clickedButton)
+		{
 			setButtons(false);
-			if (correctChoice == 'D')
+			if (this.correctChoice == selectedChoice)
 			{
 				countCorrect++;
-				buttonD.BackColor = Color.Green;
+				clickedButton.BackColor = Color.Green;
 			}
 			else
 			{
 				countWrong++;
-				buttonD.BackColor = Color.Red;
+				clickedButton.BackColor = Color.Red;
 				learnedToUnlearned();
 			}
 		}
+
 		private void setButtons(bool active)
 		{
 			if (!active)
